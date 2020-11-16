@@ -42,37 +42,22 @@ class Questions_model extends CI_Model
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
 
-    public function save_answer($answer, $userId, $questionId)
+    public function save_answer($userId)
     {
-        return $this->db->insert('user_answer', $answer, $userId, $questionId);
-    }
-    public function test($id)
-    {
-        // $this->db->set($id);
-        if ($this->input->POST('id') == NULL) {
-            echo "id is null";
-        }
-        else{
-            $data = array(
-                'id' => $id,
-                'input' => $this->input->post('id')
-    
-            );
-            return $this->db->insert('test', $data);
-        }
-        
-    }
-
-    public function register($enc_password)
-    {
-        // $this->load->database();
-        //get the email the user entered in the register page
-       
-        $data = array(
-            'email' => $this->input->post('id'),
-            'password' => $enc_password
-        );
-
-        return $this->db->insert('user', $data);
+            if ($this->input->POST('id') == NULL) {
+                return"id is null";
+            } else {
+                $data = array(
+                    'answer' => $this->input->post('anwser'),
+                    'user_id' => $userId,
+                    'question_id' => $this->input->post('id')
+                );
+                if($this->db->insert('user_answer', $data)){
+                    return "data inserted";
+                }
+                else{
+                    return"data not inserted";
+                }
+            }      
     }
 }

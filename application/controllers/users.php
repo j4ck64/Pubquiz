@@ -102,4 +102,11 @@ class Users extends CI_Controller
 
         redirect('users/login');
     }
+
+    public function save()
+    {
+        if ($this->Questions_model->save_answer($this->session->userdata('user_id')) == "data inserted") {
+            // $this->load->helper('url');
+        }
+    }
 }

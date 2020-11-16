@@ -11,7 +11,7 @@
     <!-- https://stackoverflow.com/questions/12387392/on-click-of-same-button-open-model-and-then-submit-form -->
 </head>
 
-<body>
+<body data-base="http://localhost/pub_quiz/">
     <!-- if the user is logged in the signout button will display -->
     <?php if ($this->session->userdata('logged_in')) : ?>
         <nav>
