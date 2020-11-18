@@ -59,8 +59,14 @@ class Questions extends CI_Controller
 
     public function result()
     {
+        print_r($this->session->userdata('user_id'));
+        $questions =  $this->Questions_model->get_results($this->session->userdata('user_id'));
+        // echo $questions;
+        print_r($questions);
+        // echo $questions;
+        $data['questions']=$this->Questions_model->get_results($this->session->userdata('user_id'));;
         $this->load->view('templates/header');
-        $this->load->view('questions/result');
+        $this->load->view('questions/result', $data);
         //SELECT a.answer, u.answer, q.question FROM `user_answer` u JOIN `question` q ON u.question_id = q.id JOIN `answer` a ON a.question_id = q.id WHERE u.user_id = 7
 
         // loads the corresponding posts view

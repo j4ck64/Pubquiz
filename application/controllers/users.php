@@ -93,9 +93,13 @@ class Users extends CI_Controller
     public function logout()
     {
         // unset user data
-        $this->session->unset_userdata('logged_in');
-        $this->session->unset_userdata('user_id');
-        $this->session->unset_userdata('username');
+
+        $array_items = array('user_id' => '', 'username' => '','logged_in' => '');
+        $this->session->unset_userdata($array_items);
+
+        // $this->session->unset_userdata('logged_in');
+        // $this->session->unset_userdata('user_id');
+        // $this->session->unset_userdata('username');
         $this->session->set_flashdata(
             'user_loggedout',
             'You are now logged out'

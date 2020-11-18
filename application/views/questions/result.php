@@ -1,4 +1,4 @@
-<table>
+<table class="results">  
     <thead>
         <tr>
             <th>question</th>
@@ -7,15 +7,12 @@
         </tr>
     </thead>
     <tbody>
+    <?php foreach ($questions as $question) : ?>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><?php echo $question->question?></td>
+            <td><?php echo $question->user_answer?></td>
+            <td><?php echo $question->answer?></td>
         </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+    <?php endforeach; ?>
     </tbody>
 </table>

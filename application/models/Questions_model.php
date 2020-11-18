@@ -41,7 +41,7 @@ class Questions_model extends CI_Model
 
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
-// saves the answers 
+    // saves the answers 
     public function save_answer($userId)
     {
         if ($this->input->POST('id') == NULL) {
@@ -59,20 +59,38 @@ class Questions_model extends CI_Model
             }
         }
     }
+    
     // returns the users results based on the userid
     public function get_results($userId)
     {
-        return $this->db->query("SELECT
-        a.answer,
-        u.answer,
-        q.question
-    FROM
-        `user_answer` u
-    JOIN `question` q ON
-        u.question_id = q.id
-    JOIN `answer` a ON
-        a.question_id = q.id
-    WHERE
-        u.user_id =$userId");
+        //     $results= $this->db->query("SELECT
+        //     a.answer,
+        //     u.answer as 'user_answer',
+        //     q.question
+        // FROM
+        //     `user_answer` u
+        // JOIN `question` q ON
+        //     u.question_id = q.id
+        // JOIN `answer` a ON
+        //     a.question_id = q.id
+        // WHERE
+        //     u.user_id ='?'",$userId)->result();
+
+        // return $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question")
+        // ->from('user_answer')
+        // ->join('question', "user_answer.question_id = question.id")
+        // ->join('answer', 'answer.question_id = question.id')
+        // ->where("user_answer.user_id='$userId'")
+        // ->get()
+        // ->result();
+       
+        $userId = $this->session->userdata('user_id');
+        $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question");
+        $this->db->from('user_answer');
+        $this->db->join('question', "user_answer.question_id = question.id");
+        $this->db->join('answer', 'answer.question_id = question.id');
+        $this->db->where("user_answer.user_id='$userId'");
+        $query = $this->db->get();
+        return $query->result();
     }
 }
