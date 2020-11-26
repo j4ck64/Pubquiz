@@ -26,7 +26,7 @@ class Users extends CI_Controller
             );
 
             // return to login page
-            redirect(base_url());
+            redirect('users/login');
         }
     }
 

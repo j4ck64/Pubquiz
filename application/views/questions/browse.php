@@ -6,10 +6,13 @@
 
     <br><br>
 
-    <button class="w3-circle"  onclick="location.href = href='<?php echo site_url('/questions/edit/'. $question['slug']); ?>'" >Register</button>
+    <button class="w3-circle"  onclick="location.href = href='<?php echo site_url('/questions/edit/'. $question['slug']); ?>'" >Edit</button>
 
     <p><a class="btn btn-primary" href="<?php echo site_url('/questions/edit/'. $question['slug']); ?>">Edit</a></p>
     <button type="submit" class="btn btn-primary" onclick="deleteRow(<?php echo $question['id'];?>,'<?php echo $question['slug'];?>')">
     Delete</button>
    
 <?php endforeach; ?>
+
+<button type="submit" class="btn btn-primary" onclick="location.href = href='<?php echo site_url('/questions/create'); ?>'">
+    Create Question</button>

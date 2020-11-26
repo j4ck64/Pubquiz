@@ -20,9 +20,8 @@ function deleteRow(id,slug)
 		async: true,
 		success: function (result) {
 			console.log("success");
+			//refresh page
 			  window.location.href = window.location.pathname;
-
-			
 		},
 		// logs the url it tried to redirect to and error cause
 		error: function (e) {

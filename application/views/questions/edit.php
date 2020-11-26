@@ -2,36 +2,28 @@
 
 <?php echo validation_errors() ?>
 
-<?php echo form_open('questions/edit'); ?>
-<div class="form-group">
-    <label>Email</label>
-    <input type="text" class="form-control" name="email" placeholder="
-        Email">
-</div>
+<?php echo form_open('questions/update'); ?>
+<input type="hidden" name="id" value="<?php echo $question['id']; ?>">
 <div class="form-group">
     <label>Question</label>
-    <input type="text" class="form-control" name="question" placeholder="
-        question">
+    <input type="text" class="form-control" name="question" placeholder="<?php echo $question['question']; ?>">
 </div>
 <div class="form-group">
     <label>Answer</label>
-    <input type="text" class="form-control" name="anwser" placeholder="
-        anwser">
+    <input type="text" class="form-control" name="anwser" placeholder="<?php echo $anwsers['answer']; ?>">
 </div>
-<div class="form-group">
-    <label>Dummy Answer</label>
-    <input type="text" class="form-control" name="dummy-anwser" placeholder="
-    Dummy Answer">
+<div class="form-group green-border-focus">
+        <label>Dummy Answer</label>
+        <!-- <textarea rows="3"><?php echo $anwsers['dummy_answer'] ?></textarea> -->
+        <input type="text" class="form-control" name="dummy-anwser" placeholder="<?php echo $anwsers['dummy_answer']; ?>">
 </div>
 <div class="form-group">
     <label>Dummy Answer 2</label>
-    <input type="text" class="form-control" name="dummy-anwser2" placeholder="
-    Dummy Answer 2">
+    <input type="text" class="form-control" name="dummy-anwser2" placeholder="<?php echo $anwsers['dummy_answer2']; ?>">
 </div>
 <div class="form-group">
-    <label>Dummy Answer</label>
-    <input type="text" class="form-control" name="dummy-anwser3" placeholder="
-    Dummy Answer 3">
+    <label>Dummy Answer 3</label>
+    <input type="text" class="form-control" name="dummy-anwser3" placeholder="<?php echo $anwsers['dummy_answer3']; ?>">
 </div>
 <button type="submit" class="btn btn-primary">Submit</button>
 <?php echo form_close(); ?>
