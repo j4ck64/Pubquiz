@@ -6,6 +6,36 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- ---
+-- Table 'question'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `question`;
+		
+CREATE TABLE `question` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `question` VARCHAR(300) NOT NULL,
+  `slug` VARCHAR(100) NOT NULL,
+  `publish_date` TIMESTAMP NOT NULL DEFAULT 'current_timestamp()',
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'user_anwser'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `user_anwser`;
+		
+CREATE TABLE `user_anwser` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
+  `anwser` VARCHAR(300) NULL DEFAULT NULL,
+  `user_id` INTEGER NULL DEFAULT NULL,
+  `question_id` INTEGER(100) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
 -- Table 'user'
 -- 
 -- ---
@@ -13,42 +43,27 @@
 DROP TABLE IF EXISTS `user`;
 		
 CREATE TABLE `user` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `team_name` VARCHAR(30) NOT NULL DEFAULT 'NULL',
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `email` VARCHAR(40) NOT NULL,
   `password` VARCHAR(30) NOT NULL,
+  `is_admin` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 );
 
 -- ---
--- Table 'questions'
+-- Table 'anwser'
 -- 
 -- ---
 
-DROP TABLE IF EXISTS `questions`;
+DROP TABLE IF EXISTS `anwser`;
 		
-CREATE TABLE `questions` (
+CREATE TABLE `anwser` (
   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `q1` VARCHAR(300) NOT NULL,
-  `q2` VARCHAR(300) NOT NULL,
-  `q3` VARCHAR(300) NOT NULL,
-  `q4` VARCHAR(300) NOT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'answers'
--- 
--- ---
-
-DROP TABLE IF EXISTS `answers`;
-		
-CREATE TABLE `answers` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `questions_id` INTEGER(200) NOT NULL DEFAULT 1,
-  `a1` VARCHAR(300) NOT NULL,
-  `a2` VARCHAR(300) NOT NULL,
-  `a3` VARCHAR(300) NOT NULL,
-  `a4` VARCHAR(300) NOT NULL,
+  `anwser` VARCHAR(300) NULL DEFAULT NULL,
+  `question_id` INTEGER NOT NULL,
+  `dummy_anwser` VARCHAR(300) NOT NULL,
+  `dummy_anwser2` VARCHAR(300) NOT NULL,
+  `dummy_anwser3` VARCHAR(300) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -56,31 +71,28 @@ CREATE TABLE `answers` (
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `answers` ADD FOREIGN KEY (questions_id) REFERENCES `questions` (`id`);
+ALTER TABLE `user_anwser` ADD FOREIGN KEY (user_id) REFERENCES `user` (`id`);
+ALTER TABLE `user_anwser` ADD FOREIGN KEY (question_id) REFERENCES `question` (`id`);
+ALTER TABLE `anwser` ADD FOREIGN KEY (question_id) REFERENCES `question` (`id`);
 
 -- ---
 -- Table Properties
 -- ---
 
+-- ALTER TABLE `question` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `user_anwser` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `user` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `questions` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `answers` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `anwser` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ---
 -- Test Data
 -- ---
-INSERT INTO `user` (`id`,`team_name`,`password`) VALUES
-('','test','test');
 
-INSERT INTO `questions` (`id`,`q1`,`q2`,`q3`,`q4`) VALUES
-('','1+1','2+2','3+3','4++4');
-
-INSERT INTO `answers` (`id`,`questions_id`,`a1`,`a2`,`a3`,`a4`) VALUES
-('1','1','2','4','6','8');
-
--- INSERT INTO `user` (`id`,`team_name`,`password`) VALUES
--- ('','','');
--- INSERT INTO `questions` (`id`,`q1`,`q2`,`q3`,`q4`) VALUES
--- ('','','','','');
--- INSERT INTO `answers` (`id`,`questions_id`,`a1`,`a2`,`a3`,`a4`) VALUES
+-- INSERT INTO `question` (`id`,`question`,`slug`,`publish_date`) VALUES
+-- ('','','','');
+-- INSERT INTO `user_anwser` (`id`,`anwser`,`user_id`,`question_id`) VALUES
+-- ('','','','');
+-- INSERT INTO `user` (`id`,`email`,`password`,`is_admin`) VALUES
+-- ('','','','');
+-- INSERT INTO `anwser` (`id`,`anwser`,`question_id`,`dummy_anwser`,`dummy_anwser2`,`dummy_anwser3`) VALUES
 -- ('','','','','','');

@@ -113,8 +113,8 @@ class Users extends CI_Controller
         redirect('users/login');
     }
 
-    public function save_user_answer()
+    public function save_user_anwser()
     {
-        $this->Questions_model->save_answer($this->session->userdata('user_id'));
+        $this->Questions_model->save_anwser($this->session->userdata('user_id'));
     }
 }

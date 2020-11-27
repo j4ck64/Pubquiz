@@ -15,16 +15,52 @@ class Questions_model extends CI_Model
 
     public function checknextquestion($slug)
     {
-        //validate
-        $this->db->where("slug='$slug'");
-        $result = $this->db->get('question');
+        //insert this in checknextquestion
+        //remove the q- and return the number
+        $current_slug = str_replace("q-", "", $slug);
+        // $num = intval($current_slug) + 1;
+        // $possible_slug = 'q-' . $num;
 
-        //verify the user row exists
-        if ($result->num_rows() >= 1) {
-            return true;
-        } else {
-            return false;
+
+        //validate
+        $this->db->select('*');
+        $this->db->from('question');
+        $this->db->order_by("slug", "ASC");
+        $this->db->order_by("publish_date", "DESC");
+
+        // $this->db->where("slug='$slug'");
+        // $result = $this->db->get('question');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $count = count($result);
+        $i = 0;
+        foreach ($result as $row) {
+            // print_r($i);
+            // echo '<br/>';
+            // print_r('ID: ' . $row['id']);
+            // echo '<br/>';
+
+            if ($row['id'] == $current_slug) {
+                print_r($i + 1);
+                echo '<br/>';
+                if ($i+1 == $count) {
+                    return "result";
+                }
+                else{
+                    $i + 2;
+                    print_r('slug: '.$result[$i+1]['slug']);
+                    return $result[$i+1]['slug'];
+                }
+            }
+
+            $i++;
         }
+        // //verify the user row exists
+        // if ($result->num_rows() >= 1) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function get_question($slug = FALSE)
@@ -53,23 +89,29 @@ class Questions_model extends CI_Model
 
     public function update_question()
     {
-        $data = array(
-            'question' => $this->input->post('question')
+        $array = array(
+            'question' => trim($this->input->post('question'), " ")
         );
-        $this->db->where('id', $this->input->post('id'));
-        return $this->db->update('question', $data);
+        //If array is not empty then proceed to execute query.
+        //Else return. 
+        if (!empty($data)) {
+            $this->db->where('id', $this->input->post('id'));
+            return $this->db->update('question', $data);
+        } else {
+            return;
+        }
     }
 
     public function insert_anwsers($question_id)
     {
         $data = array(
-            'answer' => $this->input->post('anwser'),
-            'dummy_answer' => $this->input->post('dummy-anwser'),
-            'dummy_answer2' => $this->input->post('dummy-anwser2'),
-            'dummy_answer3' => $this->input->post('dummy-anwser3'),
+            'anwser' => trim($this->input->post('anwser'), " "),
+            'dummy_anwser' => trim($this->input->post('dummy-anwser'), " "),
+            'dummy_anwser2' => trim($this->input->post('dummy-anwser2'), " "),
+            'dummy_anwser3' => trim($this->input->post('dummy-anwser3'), " "),
             'question_id' => $question_id
         );
-        return $this->db->insert('answer', $data);
+        return $this->db->insert('anwser', $data);
     }
 
     public function get_last_question_index()
@@ -90,13 +132,12 @@ class Questions_model extends CI_Model
         $slug = 'q-' . $next_row;
         $data = array(
             'id' => $next_row,
-            'question' => $this->input->post('question'),
+            'question' => trim($this->input->post('question'), " "),
             'slug' => $slug,
-            'publish_date' => null
+            'publish_date' => date('Y-m-d H:i:s')
         );
         $insert_id = $this->db->insert('question', $data);
         echo $this->db->last_query();
-
         return $next_row;
     }
 
@@ -105,22 +146,30 @@ class Questions_model extends CI_Model
     {
         //check if any of the inputs are string.empty
         //if they are don't include them in the query
-        $data = array(
-            'answer' => $this->input->post('anwser'),
-            'dummy_answer' => $this->input->post('dummy-anwser'),
-            'dummy_answer2' => $this->input->post('dummy-anwser2'),
-            'dummy_answer3' => $this->input->post('dummy-anwser3'),
+
+
+        $array = array(
+            'anwser' => trim($this->input->post('anwser'), " "),
+            'dummy_anwser' => trim($this->input->post('dummy-anwser'), " "),
+            'dummy_anwser2' => trim($this->input->post('dummy-anwser2'), " "),
+            'dummy_anwser3' => trim($this->input->post('dummy-anwser3'), " "),
             'question_id' => $this->input->post('id')
         );
-        $this->db->where('question_id', $this->input->post('id'));
-        return $this->db->update('answer', $data);
+        //remove empty elements from array
+        $data = array_filter($array);
+        if (!empty($data)) {
+            $this->db->where('question_id', $this->input->post('id'));
+            return $this->db->update('anwser', $data);
+        } else {
+            return;
+        }
     }
 
-
-    public function delete_question($id)
+    public function delete_question()
     {
-        $this->db->delete('user_answer', array('question_id' => $id));
-        $this->db->delete('answer', array('question_id' => $id));
+        $id = $this->input->get("id");
+        $this->db->delete('user_anwser', array('question_id' => $id));
+        $this->db->delete('anwser', array('question_id' => $id));
         $this->db->delete('question', array('id' => $id));
         return;
     }
@@ -130,7 +179,7 @@ class Questions_model extends CI_Model
         if ($id === FALSE) {
             return "get anwsers id = FALSE";
         }
-        $query = $this->db->get_where('answer', array('question_id' =>
+        $query = $this->db->get_where('anwser', array('question_id' =>
         $id));
 
         // return $query->row();
@@ -146,18 +195,18 @@ class Questions_model extends CI_Model
 
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
-    // saves the user answer 
-    public function save_answer($userId)
+    // saves the user anwser 
+    public function save_anwser($userId)
     {
         if ($this->input->POST('id') == NULL) {
             return "id is null";
         } else {
             $data = array(
-                'answer' => $this->input->post('anwser'),
+                'anwser' => $this->input->post('anwser'),
                 'user_id' => $userId,
                 'question_id' => $this->input->post('id')
             );
-            if ($this->db->insert('user_answer', $data)) {
+            if ($this->db->insert('user_anwser', $data)) {
                 return "data inserted";
             } else {
                 return "data not inserted";
@@ -168,11 +217,11 @@ class Questions_model extends CI_Model
     // returns the users results based on the userid
     public function get_results($userId)
     {
-        $this->db->select("answer.answer, user_answer.answer as 'user_answer', question.question, question.id");
-        $this->db->from('user_answer');
-        $this->db->join('question', "user_answer.question_id = question.id");
-        $this->db->join('answer', 'answer.question_id = question.id');
-        $this->db->where("user_answer.user_id='$userId'");
+        $this->db->select("anwser.anwser, user_anwser.anwser as 'user_anwser', question.question, question.id");
+        $this->db->from('user_anwser');
+        $this->db->join('question', "user_anwser.question_id = question.id");
+        $this->db->join('anwser', 'anwser.question_id = question.id');
+        $this->db->where("user_anwser.user_id='$userId'");
         $query = $this->db->get();
         $arr = $query->result();
 
@@ -187,11 +236,11 @@ class Questions_model extends CI_Model
             $row = array(
                 'id' => $arr[$index]->id,
                 'question' =>  $arr[$index]->question,
-                'user_answer' => $arr[$index]->user_answer,
-                'answer' => $arr[$index]->answer,
+                'user_anwser' => $arr[$index]->user_anwser,
+                'anwser' => $arr[$index]->anwser,
             );
             if ($index2 == count($arr)) {
-                print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
+                print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_anwser . ' anwser->' . $arr[$index]->anwser . ']' . $index . " index 2: " . $index2);
                 echo '<br/>';
                 echo '<br/>';
                 array_push($newArray, $row);
@@ -203,7 +252,7 @@ class Questions_model extends CI_Model
                 echo '<br/>';
 
                 if ($arr[$index]->question !== $arr[$index2]->question) {
-                    print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_answer . ' anwser->' . $arr[$index]->answer . ']' . $index . " index 2: " . $index2);
+                    print_r('adding to array: [id->' . $arr[$index]->id . ' question->' .  $arr[$index]->question . ' user_anwser->' . $arr[$index]->user_anwser . ' anwser->' . $arr[$index]->anwser . ']' . $index . " index 2: " . $index2);
                     echo '<br/>';
                     echo '<br/>';
                     array_push($newArray, $row);

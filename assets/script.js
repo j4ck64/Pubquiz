@@ -32,7 +32,7 @@ function deleteRow(id,slug)
 	});
 }
 
-function saveAnswer(id, anwser, slug) {
+function saveanwser(id, anwser, slug) {
 	var id = id;
 	var anwser = anwser;
 	var slug = slug;
@@ -49,7 +49,7 @@ function saveAnswer(id, anwser, slug) {
 
 	$.ajax({
 		type: "POST",
-		url: qualifyURL("users/save_user_answer"),
+		url: qualifyURL("users/save_user_anwser"),
 		data: { id: id, anwser: anwser, slug: slug },
 		cache: false,
 		async: true,

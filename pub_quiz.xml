@@ -47,15 +47,18 @@
 <row name="slug" null="0" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 </row>
+<row name="publish_date" null="0" autoincrement="0">
+<datatype>TIMESTAMP</datatype>
+<default>'current_timestamp()'</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="323" y="172" name="user_answer">
+<table x="323" y="171" name="user_anwser">
 <row name="id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="answer" null="1" autoincrement="0">
+<row name="anwser" null="1" autoincrement="0">
 <datatype>VARCHAR(300)</datatype>
 <default>NULL</default></row>
 <row name="user_id" null="1" autoincrement="0">
@@ -80,28 +83,31 @@
 <row name="password" null="0" autoincrement="0">
 <datatype>VARCHAR(30)</datatype>
 </row>
+<row name="is_admin" null="0" autoincrement="0">
+<datatype>TINYINT(1)</datatype>
+<default>0</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="759" y="182" name="answer">
+<table x="759" y="182" name="anwser">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="answer" null="1" autoincrement="0">
+<row name="anwser" null="1" autoincrement="0">
 <datatype>VARCHAR(300)</datatype>
 <default>NULL</default></row>
 <row name="question_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
 <relation table="question" row="id" />
 </row>
-<row name="dummy_answer" null="0" autoincrement="0">
+<row name="dummy_anwser" null="0" autoincrement="0">
 <datatype>VARCHAR(300)</datatype>
 </row>
-<row name="dummy_answer2" null="0" autoincrement="0">
+<row name="dummy_anwser2" null="0" autoincrement="0">
 <datatype>VARCHAR(300)</datatype>
 </row>
-<row name="dummy_answer3" null="0" autoincrement="0">
+<row name="dummy_anwser3" null="0" autoincrement="0">
 <datatype>VARCHAR(300)</datatype>
 </row>
 <key type="PRIMARY" name="">

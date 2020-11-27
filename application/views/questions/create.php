@@ -2,26 +2,26 @@
 
 <?php echo validation_errors() ?>
 
-<?php echo form_open('questions/insert'); ?>
+<?php echo form_open('questions/create'); ?>
 <div class="form-group">
     <label>Question</label>
     <input type="text" class="form-control" name="question" placeholder="Enter Question">
 </div>
 <div class="form-group">
-    <label>Answer</label>
+    <label>anwser</label>
     <input type="text" class="form-control" name="anwser" placeholder="Enter Anwser">
 </div>
 <div class="form-group green-border-focus">
-        <label>Dummy Answer</label>
+        <label>Dummy anwser</label>
         <!-- <textarea rows="3"></textarea> -->
         <input type="text" class="form-control" name="dummy-anwser" placeholder="Enter Dummy Anwser">
 </div>
 <div class="form-group">
-    <label>Dummy Answer 2</label>
+    <label>Dummy anwser 2</label>
     <input type="text" class="form-control" name="dummy-anwser2" placeholder="Enter Second Dummy Anwser">
 </div>
 <div class="form-group">
-    <label>Dummy Answer 3</label>
+    <label>Dummy anwser 3</label>
     <input type="text" class="form-control" name="dummy-anwser3" placeholder="Enter Third Dummy Anwser">
 </div>
 <button type="submit" class="btn btn-primary">Submit</button>
