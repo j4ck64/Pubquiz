@@ -6,7 +6,7 @@ class Users extends CI_Controller
     {
         $data['title'] = 'register';
 
-        $this->form_validation->set_rules('email', 'email', 'required|callback_check_email_exists');
+        $this->form_validation->set_rules('email', 'email', 'required|callback_check_email_contains|callback_check_email_exists');
         $this->form_validation->set_rules('password', 'password', 'required|min_length[8]|max_length[20]');
         $this->form_validation->set_rules('password2', 'Confirm password', 'matches[password]');
 
@@ -27,6 +27,20 @@ class Users extends CI_Controller
 
             // return to login page
             redirect('users/login');
+        }
+    }
+
+    public function check_email_contains($email)
+    {
+        $this->form_validation->set_message(
+            'check_email_contains',
+            'make sure the email contains @.
+            Please try again'
+        );
+        if (strpos($email, '@')) {
+            return true;
+        } else {
+            return false;
         }
     }
 
